@@ -3,9 +3,9 @@ class db_accessor{
 
     //connection information
     private $database;      // twitter
-    private $username;      // root
-    private $password;      // adam17
-    private $host;          // localhost
+    private $username;      
+    private $password;     
+    private $host;         
 	
 	//keep the index
 	private $index;
