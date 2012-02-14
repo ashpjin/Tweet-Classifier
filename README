@@ -1,0 +1,6 @@
+This directory contains all files necessary for tweet classification. The ultimate goal is to use user generated tweet classifications to train a machine learning classifier (probably MaxEnt) to automatically filter new data points by binary relevancy (i.e. either relevant or irrelevant and not by varying degrees).
+
+2.14.12
+- initial commit of all files
+- currently has a janky website for imputting classifications on (non random) tweets
+- uses user classifications to write the messages into appropriate training text files
