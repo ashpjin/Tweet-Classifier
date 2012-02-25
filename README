@@ -4,3 +4,8 @@ This directory contains all files necessary for tweet classification. The ultima
 - initial commit of all files
 - currently has a janky website for imputting classifications on (non random) tweets
 - uses user classifications to write the messages into appropriate training text files
+
+2.24.12
+- updated how data logging works to be more consistent with MALLET data formats
+    - uses a bash script to auto log when called
+	- new directories each for rel, irrel, inapp
