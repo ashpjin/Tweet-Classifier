@@ -1,0 +1,29 @@
+#!/bin/bash
+
+./log_data_versions.sh
+# other log, for temp files
+
+cd ../../../mallet-2.0.7
+
+### create .mallet file ###
+bin/mallet import-dir --input ../public_html/classify/data_versions/relevant ../public_html/classify/data_versions/irrelevant --stoplist-file ../word_filters/stop_word_filter/lucene_stopword_list.txt --output full_data.mallet
+
+### create classfifier using full data
+bin/mallet train-classifier --input full_data.mallet --output-classifier relevancy_full.classifier --trainer MaxEnt;
+
+## where is the data going to be, come from??? dunno yet
+#in/mallet classify-file --input sample-data/data.txt --output - --classifier relevancy_full.classifier
+
+### create user .mallet file ###
+bin/mallet import-dir --input ../public_html/classify/text_files/user/relevant ../public_html/classify/text_files/user/irrelevant --stoplist-file ../word_filters/stop_word_filter/lucene_stopword_list.txt --output user_data.mallet
+
+### create classifier using user data only
+bin/mallet train-classifier --input user_data.mallet --output-classifier relevancy_user.classifier --trainer MaxEnt;
+
+
+
+# reset all the temp files and data
+cd ../public_html/classify/
+
+> text_files/user/relevant/temp_relevant_tweets.txt
+> text_files/user/irrelevant/temp_irrelevant_tweets.txt

@@ -46,5 +46,43 @@ class db_accessor{
 			return $res;
 		}
 	}
+
+	//gets random tweets; return array of message_text_clean(s)
+	public function get_random_tweets($limit){
+		$random_ids = $this->get_id_range($limit);
+		$tweet_array = array();
+
+		for($index = 0; $index < $limit; $index++){
+			$query = "SELECT message_text_clean AS message FROM search_result WHERE id >= " . $random_ids[$index] . " LIMIT 0,1;";
+        	$res = mysql_query($query);
+
+			if(!$res){
+				echo "ERROR (QUERY): " . mysql_error() . "\n";
+				return false;
+			}
+			else {
+		    	$tweet_array[$index] = mysql_fetch_object($res)->message;
+			}
+		}
+		return $tweet_array;
+	}
+
+	//gets max and min id # from table
+	public function get_id_range($limit){
+		$range_result = mysql_query("SELECT MAX(id) AS max_id , MIN(id) AS min_id FROM search_result");
+		$range_row = mysql_fetch_object($range_result);
+		$random_ids = array();
+		
+		// echo "min = " . $range_row->min_id . ", max = " . $range_row->max_id . "\n";
+		while(sizeof($random_ids) != $limit){
+			for($index = sizeof($random_ids); $index < $limit; $index++){
+				$random_ids[$index] = mt_rand($range_row->min_id , $range_row->max_id);
+			}
+			$random_ids = array_unique($random_ids);
+		}
+		return $random_ids;
+		
+		//$result = mysql_query( " SELECT * FROM search_result WHERE id >= $random LIMIT 0,1");
+	}
 }
 ?>
